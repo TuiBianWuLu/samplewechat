@@ -1,4 +1,4 @@
-package parmas
+package params
 
 type (
 	GetToken struct {

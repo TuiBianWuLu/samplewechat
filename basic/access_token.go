@@ -2,13 +2,13 @@ package basic
 
 import (
 	"github.com/gin-gonic/gin"
-	"weChatSdk/library/parmas"
+	"samplewechat/library/params"
 	"fmt"
 	"log"
 )
 
 func Token(c *gin.Context) {
-	param := new (parmas.GetToken)
+	param := new (params.GetToken)
 
 	if c.Bind(param) != nil {
 		log.Println("编译出错")
