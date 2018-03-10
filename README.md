@@ -1,5 +1,5 @@
 # OVERVIEW
-基于Go语言封装的wechat sdk
+go wechat sdk
 
 # INSTALL
 ```Shell
