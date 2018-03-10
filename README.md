@@ -1,22 +1,18 @@
 # OVERVIEW
-
 基于Go语言封装的wechat sdk
 
-
-# Clone 源代码
-
+# INSTALL
 ```Shell
-git clone git@github.com:TuiBianWuLu/samplewechat.git
+go get github.com/TuiBianWuLu/samplewechat
 ```
-# 安装依赖项
 
-项目依赖使用 govendor 工具进行依赖管理，需要先安装 govendor 
-
+# Fork
 ```Shell
-go get -u github.com/kardianos/govendor
-```
-然后使用 govendor 命令将项目相关依赖进行拉取
+go get github.com/TuiBianWuLu/samplewechat
 
-```Shell
-govendor sync
+cd $GOPATH/src/github.com/TuiBianWuLu/samplewechat
+
+git remote rename origin upstream
+
+git remote add origin `your git repository addr`
 ```
