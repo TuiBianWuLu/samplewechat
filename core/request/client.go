@@ -9,15 +9,15 @@ import (
 
 func Get(uri string) ([]byte, error) {
 
-    res, err := http.Get(uri)
+    response, err := http.Get(uri)
 
-    defer  res.Body.Close()
+    defer response.Body.Close()
 
     if err != nil {
         return nil, err
     }
 
-    return ioutil.ReadAll(res.Body)
+    return ioutil.ReadAll(response.Body)
 }
 
 func Post(uri string, obj interface{}) ([]byte, error) {
@@ -28,13 +28,13 @@ func Post(uri string, obj interface{}) ([]byte, error) {
         return nil, err
     }
 
-    res, err := http.Post(uri, "application/json", bytes.NewBuffer(jsonData))
+    response, err := http.Post(uri, "application/json", bytes.NewBuffer(jsonData))
 
-    defer res.Body.Close()
+    defer response.Body.Close()
 
     if err != nil {
         return nil, err
     }
 
-    return ioutil.ReadAll(res.Body)
+    return ioutil.ReadAll(response.Body)
 }

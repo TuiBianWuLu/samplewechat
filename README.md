@@ -4,6 +4,10 @@ go wechat sdk
 # INSTALL
 ```Shell
 go get github.com/TuiBianWuLu/samplewechat
+
+cd $GOPATH/src/TuiBianWuLu/samplewechat
+
+dep ensurce
 ```
 
 # Fork

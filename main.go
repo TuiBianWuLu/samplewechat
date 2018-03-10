@@ -8,7 +8,12 @@ import (
 
 func main() {
 
-    fmt.Println("Hell go smaple wechat")
+    wechat := &basic.Wechat{
+        AppId: "",
+        Secret: "",
+    }
 
-    fmt.Println("token", basic.GetToken())
+    x, err := wechat.RefreshToken()
+
+    fmt.Println(x, err)
 }
