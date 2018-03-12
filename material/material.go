@@ -5,7 +5,6 @@ import (
 	"encoding/json"
 	"github.com/TuiBianWuLu/samplewechat/core/request"
 	"github.com/TuiBianWuLu/samplewechat/basic"
-	"log"
 )
 
 const (
