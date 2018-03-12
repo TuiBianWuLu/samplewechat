@@ -9,8 +9,8 @@ import (
 func main() {
 
     weChat := &basic.WeChat{
-        AppId: "wx7d2495e65b96a40f",
-        Secret: "0a8789cb6976f88fc698a1bc69c61b03",
+        AppId: "wxee829f0f8f8e310f",
+        Secret: "d4624c36b6795d1d99dcf0547af5443d",
     }
 
     x, err := weChat.RefreshToken()
