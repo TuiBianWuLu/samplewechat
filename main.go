@@ -8,12 +8,15 @@ import (
 
 func main() {
 
-    wechat := &basic.Wechat{
-        AppId: "",
-        Secret: "",
+    weChat := &basic.WeChat{
+        AppId: "wx7d2495e65b96a40f",
+        Secret: "0a8789cb6976f88fc698a1bc69c61b03",
     }
 
-    x, err := wechat.RefreshToken()
+    x, err := weChat.RefreshToken()
 
-    fmt.Println(x, err)
+    if err != nil {
+        return
+    }
+    fmt.Println(x.AccessToken)
 }

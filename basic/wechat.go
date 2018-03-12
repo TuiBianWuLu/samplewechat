@@ -7,7 +7,7 @@ import (
     "github.com/TuiBianWuLu/samplewechat/core/interfaces"
 )
 
-type Wechat struct {
+type WeChat struct {
     AppId  string
     Secret string
 

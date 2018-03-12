@@ -9,15 +9,15 @@ import (
 
 const refreshTokenUrl = "https://api.weixin.qq.com/cgi-bin/token?grant_type=client_credential"
 
-func (w *Wechat) GetAccessToken(key string) string {
+func (w *WeChat) GetAccessToken(key string) string {
     return w.cache.Get(key)
 }
 
-func (w *Wechat) SetAccessToken(key, value string) bool {
+func (w *WeChat) SetAccessToken(key, value string) bool {
     return w.cache.Set(key, value)
 }
 
-func (w *Wechat) RefreshToken() (responseToken ResponseAccessToken, err error) {
+func (w *WeChat) RefreshToken() (responseToken ResponseAccessToken, err error) {
 
     uri := fmt.Sprintf("%s&appid=%s&secret=%s", refreshTokenUrl, w.AppId, w.Secret)
 
