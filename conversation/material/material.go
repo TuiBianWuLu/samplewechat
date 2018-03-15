@@ -44,7 +44,7 @@ type Article struct {
 	ContentSourceURL string `json:"content_source_url"`
 }
 
-func (m *Material) Add (article []*Article) (mediaId string, err error)  {
+func (m *Material) AddNews (article []*Article) (mediaId string, err error)  {
 	rep := &reqArticles{article}
 
 	res, err := m.RefreshToken()
@@ -96,5 +96,18 @@ func (m *Material) Delete (mediaId string) error {
 	if result.ErrCode != '0' {
 		return fmt.Errorf("delete materila fail error msg : %s", result.ErrMsg)
 	}
+	return nil
+}
+
+func (m *Material) AddMaterial (mType MediaType, filename string) error {
+
+	res, err := m.RefreshToken()
+
+	if err != nil {
+		return err
+	}
+
+	uri := fmt.Sprintf("%s?access_token=%s", addMaterialURL, res.AccessToken)
+
 	return nil
 }
