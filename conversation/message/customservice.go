@@ -11,7 +11,8 @@ const (
 	AddAccount = "https://api.weixin.qq.com/customservice/kfaccount/add"
 	UpdateAccount = "https://api.weixin.qq.com/customservice/kfaccount/update"
 	DeleteAccount = "https://api.weixin.qq.com/customservice/kfaccount/delete"
-	UploadHeadImg = "http://api.weixin.qq.com/customservice/kfaccount/uploadheadimg"
+	UploadHeadImg = "https://api.weixin.qq.com/customservice/kfaccount/uploadheadimg"
+	GetKfList = "https://api.weixin.qq.com/cgi-bin/customservice/getkflist"
 )
 //a = add u = update d = delete
 var a, u, d = 1, 2, 3
@@ -30,10 +31,19 @@ type Account struct {
 	Password	string	`json:"pass_word"`
 }
 
+type KfList struct {
+	*basic.CommonError
+	KfAccount		string	`json:"kf_account"`
+	KfNick			string	`json:"kf_nick"`
+	KfId			string	`json:"kf_id"`
+	KfHeadImgUrl	string	`json:"kf_headimgurl"`
+}
+
 type Avatar struct {
 	KfAccount	string	`json:"kf_account"`
 }
 
+//客服账号
 func (m *Message) Account (account []*Account, apiType int) error {
 
 	req := &reqAccount{account}
@@ -75,6 +85,7 @@ func (m *Message) Account (account []*Account, apiType int) error {
 	return nil
 }
 
+//设置头像
 func (m *Message) SetAvatar (avatar Avatar) error {
 	req := &avatar
 
@@ -104,4 +115,38 @@ func (m *Message) SetAvatar (avatar Avatar) error {
 		return fmt.Errorf("set avatar fail : %s", result.ErrMsg)
 	}
 	return nil
+}
+
+func (m *Message) GetKfList () (KfList, error) {
+
+	var req byte
+
+	var resp KfList
+
+	res, err := m.RefreshToken()
+
+	if err != nil {
+		return resp, err
+	}
+
+	uri := fmt.Sprintf("%s?access_token=%s", GetKfList, res.AccessToken)
+
+	body, err := request.Post(uri, req)
+
+	if err != nil {
+		return resp, err
+	}
+
+	var result KfList
+
+	err = json.Unmarshal(body, result)
+
+	if err != nil {
+		return resp, err
+	}
+
+	if result.ErrCode != '0' {
+		return resp, err
+	}
+	return result, nil
 }
