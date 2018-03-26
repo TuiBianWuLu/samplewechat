@@ -2,6 +2,7 @@ package samplewechat
 
 import (
     "github.com/TuiBianWuLu/samplewechat/config"
+    "github.com/TuiBianWuLu/samplewechat/material"
     "github.com/TuiBianWuLu/samplewechat/token"
 )
 
@@ -18,4 +19,8 @@ func New(c *config.Config) *Wechat {
 
 func (w *Wechat) AccessToken() *token.AccessToken {
     return token.NewAccessToken(w.Config)
+}
+
+func (w *Wechat) Material() *material.Material {
+    return material.New(w.Config)
 }

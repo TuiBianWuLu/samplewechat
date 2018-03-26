@@ -14,7 +14,6 @@ func main() {
     wechat := samplewechat.New(&config.Config{
         AppId:                "",
         Secret:               "",
-        PrefixAccessTokenKey: "tiger.com.access_token",
         Cache: cache.NewRedis(&redis.Options{
             Addr:     "localhost:6379",
             Password: "",

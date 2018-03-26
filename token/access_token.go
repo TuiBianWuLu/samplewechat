@@ -48,6 +48,9 @@ func (a *AccessToken) refreshToken() (accessTokenRes AccessTokenRes, err error) 
 
 func (a *AccessToken) AccessToken() (token string, err error) {
 
+    a.AccessTokenLock.Lock()
+    defer a.AccessTokenLock.Unlock()
+
     var key = fmt.Sprintf("access_token_%s", a.AppId)
 
     if a.PrefixAccessTokenKey != "" {
