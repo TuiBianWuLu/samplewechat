@@ -12,4 +12,3 @@ func New(c *config.Config) *Material {
     m.Config = c
     return m
 }
-
