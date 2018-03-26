@@ -2,6 +2,7 @@ package token
 
 import (
     "encoding/json"
+    "errors"
     "fmt"
     "time"
 
@@ -70,7 +71,9 @@ func (a *AccessToken) AccessToken() (token string, err error) {
         if err != nil {
             return "", err
         }
+
         if err != nil || res.ErrorCode > 0 {
+            err = errors.New(fmt.Sprintf("%d %s", res.ErrorCode, res.ErrorMessage))
             return "", err
         }
 
