@@ -13,6 +13,7 @@ import (
 const (
     ADDMENUURL   = "https://api.weixin.qq.com/cgi-bin/menu/create"
     QUERYMENUURL = "https://api.weixin.qq.com/cgi-bin/menu/get"
+    DELMENUURL   = "https://api.weixin.qq.com/cgi-bin/menu/delete"
 )
 
 type Menu struct {
@@ -64,6 +65,27 @@ func (m *Menu) QueryMenu() (queryMenuButton QueryMenuButton, err error) {
     }
 
     err = json.Unmarshal(res, &queryMenuButton)
+
+    return
+}
+
+func (m *Menu) DelMenu() (resMsg response.CommonError, err error) {
+
+    accessToken, err := token.NewAccessToken(m.Config).AccessToken()
+
+    if err != nil {
+        return
+    }
+
+    url := fmt.Sprintf("%s?access_token=%s", DELMENUURL, accessToken)
+
+    res, err := request.Get(url)
+
+    if err != nil {
+        return
+    }
+
+    err = json.Unmarshal(res, &resMsg)
 
     return
 }
