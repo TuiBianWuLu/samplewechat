@@ -11,9 +11,11 @@ import (
 )
 
 const (
-    ADDMENUURL   = "https://api.weixin.qq.com/cgi-bin/menu/create"
-    QUERYMENUURL = "https://api.weixin.qq.com/cgi-bin/menu/get"
-    DELMENUURL   = "https://api.weixin.qq.com/cgi-bin/menu/delete"
+    ADDMENUURL        = "https://api.weixin.qq.com/cgi-bin/menu/create"
+    ADDCONDITIONALURL = "https://api.weixin.qq.com/cgi-bin/menu/addconditional"
+    QUERYMENUURL      = "https://api.weixin.qq.com/cgi-bin/menu/get"
+    DELMENUURL        = "https://api.weixin.qq.com/cgi-bin/menu/delete"
+    TRYMATCHURL       = "https://api.weixin.qq.com/cgi-bin/menu/trymatch"
 )
 
 type Menu struct {
@@ -35,7 +37,12 @@ func (m *Menu) CreateMenu(menu CreateMenuButton) (resMsg response.CommonError, e
         return
     }
 
-    url := fmt.Sprintf("%s?access_token=%s", ADDMENUURL, accessToken)
+    var url string
+    if menu.MatchRule == (MatchRule{}) {
+        url = fmt.Sprintf("%s?access_token=%s", ADDMENUURL, accessToken)
+    } else {
+        url = fmt.Sprintf("%s?access_token=%s", ADDCONDITIONALURL, accessToken)
+    }
 
     res, err := request.Post(url, menu)
 
@@ -48,7 +55,7 @@ func (m *Menu) CreateMenu(menu CreateMenuButton) (resMsg response.CommonError, e
     return
 }
 
-func (m *Menu) QueryMenu() (queryMenuButton QueryMenuButton, err error) {
+func (m *Menu) QueryMenu() (queryMenuButton QueryMenuButtonRes, err error) {
 
     accessToken, err := token.NewAccessToken(m.Config).AccessToken()
 
@@ -64,6 +71,7 @@ func (m *Menu) QueryMenu() (queryMenuButton QueryMenuButton, err error) {
         return
     }
 
+    fmt.Println(string(res))
     err = json.Unmarshal(res, &queryMenuButton)
 
     return
@@ -86,6 +94,28 @@ func (m *Menu) DelMenu() (resMsg response.CommonError, err error) {
     }
 
     err = json.Unmarshal(res, &resMsg)
+
+    return
+}
+
+func (m *Menu) TryMatch(user TryMatchUser) (tryMatchRes TryMatchRes, err error) {
+
+    accessToken, err := token.NewAccessToken(m.Config).AccessToken()
+
+    if err != nil {
+        return
+    }
+
+    url := fmt.Sprintf("%s?access_token=%s", TRYMATCHURL, accessToken)
+
+    res, err := request.Post(url, user)
+
+    if err != nil {
+        return
+    }
+
+    fmt.Println(string(res))
+    err = json.Unmarshal(res, &tryMatchRes)
 
     return
 }
