@@ -34,7 +34,7 @@ func NewAccessToken(c *config.Config) *AccessToken {
 
 func (a *AccessToken) refreshToken() (accessTokenRes AccessTokenRes, err error) {
 
-    url := fmt.Sprintf("%s?grant_type=client_credential&appid=%s&secret=%s", ACCESSTOKENURL, a.AppId, a.Secret)
+    url := fmt.Sprintf("%s?grant_type=client_credential&appid=%s&secret=%s", ACCESSTOKENURL, a.AppID, a.Secret)
 
     res, err := request.Get(url)
 
@@ -52,7 +52,7 @@ func (a *AccessToken) AccessToken() (token string, err error) {
     a.AccessTokenLock.Lock()
     defer a.AccessTokenLock.Unlock()
 
-    var key = fmt.Sprintf("access_token_%s", a.AppId)
+    var key = fmt.Sprintf("access_token_%s", a.AppID)
 
     if a.PrefixAccessTokenKey != "" {
         key = a.PrefixAccessTokenKey
