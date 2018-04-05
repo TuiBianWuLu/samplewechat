@@ -32,3 +32,13 @@ type QueryMenuButton struct {
         MenuID int64 `json:"menuid,omitempty"`
     } `json:"menu,omitempty"`
 }
+
+type TryMatch struct {
+    UserID      string  `json:"user_id"`
+}
+
+type QueryTryMatch struct {
+    Menus struct {
+        Buttons []Button `json:"button"`
+    } `json:"menu,omitempty"`
+}

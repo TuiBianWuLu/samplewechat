@@ -2,7 +2,6 @@ package main
 
 import (
     "fmt"
-
     "github.com/TuiBianWuLu/samplewechat"
     "github.com/TuiBianWuLu/samplewechat/config"
     "github.com/TuiBianWuLu/samplewechat/menu"
@@ -12,9 +11,9 @@ import (
 
 func main() {
 
-    wechat := samplewechat.New(&config.Config{
-        AppID:  "",
-        Secret: "",
+    WeChat := samplewechat.New(&config.Config{
+        AppID:  "appid",
+        Secret: "secret",
         Cache: cache.NewRedis(&redis.Options{
             Addr:     "localhost:6379",
             Password: "",
@@ -25,14 +24,29 @@ func main() {
     //
     //fmt.Println(token, err)
 
-    menuButtons := menu.CreateMenuButton{Buttons: []menu.Button{
-        {Name: "今晚吃鸡", Type: "view", Url: "https://www.baidu.com"},
-        {Name: "今晚吃屎", Type: "click", SubButton: []menu.Button{
-            {Name: "今晚吃鸡吧", Type: "view", Url: "https://www.igetget.com/"},
-        }},
-    }}
+    //创建自定义菜单
+    //menuButtons := menu.CreateMenuButton{Buttons: []menu.Button{
+    //    {Name: "今晚吃鸡", Type: "view", Url: "https://www.baidu.com"},
+    //    {Name: "今晚吃屎", Type: "click", SubButton: []menu.Button{
+    //        {Name: "今晚吃鸡吧", Type: "view", Url: "https://www.igetget.com/"},
+    //    }},
+    //}}
 
-    res, err := wechat.Menu().CreateMenu(menuButtons)
+    //个性化菜单创建
+    //menuButton := menu.CreateMenuButton{Buttons: []menu.Button{
+    //    {Name: "我笑了", Type: "view", Url: "https://h5.sao.cn"},
+    //    {Name: "我哭了", Type: "click", SubButton: []menu.Button{
+    //        {Name: "你瞅啥", Type: "view", Url: "https://www.igetget.com/"},
+    //    }},
+    //},MatchRule : menu.MatchRule{Sex: 1, ClientPlatformType: 1, Country: "中国", Province: "北京", City: "通州", Language: "zh_CN"}}
+
+    //测试个性化菜单匹配结果
+
+
+    menuButton := menu.TryMatch{UserID:"openid"}
+    res, err := WeChat.Menu().TestTryMatch(menuButton)
+
+    //res, err := WeChat.Menu().CreateMenu(menuButtons)
     //
     //fmt.Println(res, err)
 
