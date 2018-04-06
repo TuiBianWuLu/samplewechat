@@ -5,6 +5,7 @@ import (
     "github.com/TuiBianWuLu/samplewechat/material"
     "github.com/TuiBianWuLu/samplewechat/menu"
     "github.com/TuiBianWuLu/samplewechat/token"
+    "github.com/TuiBianWuLu/samplewechat/custom"
 )
 
 type WeChat struct {
@@ -28,4 +29,8 @@ func (w *WeChat) Material() *material.Material {
 
 func (w *WeChat) Menu() *menu.Menu {
     return menu.New(w.Config)
+}
+
+func (w *WeChat) Custom() *custom.Custom {
+    return custom.New(w.Config)
 }
