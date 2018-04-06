@@ -38,7 +38,12 @@ func (m *Menu) CreateMenu(menu CreateMenuButton) (resMsg response.CommonError, e
         return
     }
 
-    url := fmt.Sprintf("%s?access_token=%s", AddMenuUrl, accessToken)
+    var url string
+    if menu.MatchRule == (MatchRule{}) {
+        url = fmt.Sprintf("%s?access_token=%s", AddMenuUrl, accessToken)
+    } else {
+        url = fmt.Sprintf("%s?access_token=%s", AddConditionalUrl, accessToken)
+    }
 
     res, err := request.Post(url, menu)
 
@@ -51,7 +56,7 @@ func (m *Menu) CreateMenu(menu CreateMenuButton) (resMsg response.CommonError, e
     return
 }
 
-func (m *Menu) QueryMenu() (queryMenuButton QueryMenuButton, err error) {
+func (m *Menu) QueryMenu() (queryMenuButton QueryMenuButtonRes, err error) {
 
     accessToken, err := token.NewAccessToken(m.Config).AccessToken()
 
@@ -62,8 +67,6 @@ func (m *Menu) QueryMenu() (queryMenuButton QueryMenuButton, err error) {
     url := fmt.Sprintf("%s?access_token=%s", QueryMenuUrl, accessToken)
 
     res, err := request.Get(url)
-
-    //fmt.Println(string(res[:]))
 
     if err != nil {
         return
@@ -95,27 +98,8 @@ func (m *Menu) DelMenu() (resMsg response.CommonError, err error) {
     return
 }
 
-func (m *Menu) AddConditional(menu CreateMenuButton) (resMsg response.CommonError, err error) {
-    accessToken, err := token.NewAccessToken(m.Config).AccessToken()
+func (m *Menu) TryMatch(user TryMatchUser) (tryMatchRes TryMatchRes, err error) {
 
-    if err != nil {
-        return
-    }
-
-    url := fmt.Sprintf("%s?access_token=%s", AddConditionalUrl, accessToken)
-
-    res, err := request.Post(url, menu)
-
-    if err != nil {
-        return
-    }
-
-    err = json.Unmarshal(res, &resMsg)
-
-    return
-}
-
-func (m *Menu) TestTryMatch(menu TryMatch) (queryTryMatch QueryTryMatch, err error) {
     accessToken, err := token.NewAccessToken(m.Config).AccessToken()
 
     if err != nil {
@@ -124,18 +108,20 @@ func (m *Menu) TestTryMatch(menu TryMatch) (queryTryMatch QueryTryMatch, err err
 
     url := fmt.Sprintf("%s?access_token=%s", TryMatchUrl, accessToken)
 
-    res, err := request.Post(url, menu)
+    res, err := request.Post(url, user)
 
     if err != nil {
         return
     }
 
-    err = json.Unmarshal(res, &queryTryMatch)
+    err = json.Unmarshal(res, &tryMatchRes)
 
     return
 }
 
-func (m *Menu) DelConditional (MenuID DelMenu ) (resMsg response.CommonError, err error) {
+
+func (m *Menu) DelConditional (delMenu DelMenu) (resMsg response.CommonError, err error) {
+
     accessToken, err := token.NewAccessToken(m.Config).AccessToken()
 
     if err != nil {
@@ -143,7 +129,7 @@ func (m *Menu) DelConditional (MenuID DelMenu ) (resMsg response.CommonError, er
     }
     url := fmt.Sprintf("%s?access_token=%s", DelConditional, accessToken)
 
-    res, err := request.Post(url, MenuID)
+    res, err := request.Post(url, delMenu)
 
     if err != nil {
         return
