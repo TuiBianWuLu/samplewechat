@@ -11,11 +11,12 @@ import (
 )
 
 const (
-    ADDMENUURL        = "https://api.weixin.qq.com/cgi-bin/menu/create"
-    ADDCONDITIONALURL = "https://api.weixin.qq.com/cgi-bin/menu/addconditional"
-    QUERYMENUURL      = "https://api.weixin.qq.com/cgi-bin/menu/get"
-    DELMENUURL        = "https://api.weixin.qq.com/cgi-bin/menu/delete"
-    TRYMATCHURL       = "https://api.weixin.qq.com/cgi-bin/menu/trymatch"
+    AddMenuUrl          = "https://api.weixin.qq.com/cgi-bin/menu/create"
+    QueryMenuUrl        = "https://api.weixin.qq.com/cgi-bin/menu/get"
+    DelMenuUrl          = "https://api.weixin.qq.com/cgi-bin/menu/delete"
+    AddConditionalUrl   = "https://api.weixin.qq.com/cgi-bin/menu/addconditional"
+    TryMatchUrl         = "https://api.weixin.qq.com/cgi-bin/menu/trymatch"
+    DelConditional      = "https://api.weixin.qq.com/cgi-bin/menu/delconditional"
 )
 
 type Menu struct {
@@ -39,9 +40,9 @@ func (m *Menu) CreateMenu(menu CreateMenuButton) (resMsg response.CommonError, e
 
     var url string
     if menu.MatchRule == (MatchRule{}) {
-        url = fmt.Sprintf("%s?access_token=%s", ADDMENUURL, accessToken)
+        url = fmt.Sprintf("%s?access_token=%s", AddMenuUrl, accessToken)
     } else {
-        url = fmt.Sprintf("%s?access_token=%s", ADDCONDITIONALURL, accessToken)
+        url = fmt.Sprintf("%s?access_token=%s", AddConditionalUrl, accessToken)
     }
 
     res, err := request.Post(url, menu)
@@ -63,7 +64,7 @@ func (m *Menu) QueryMenu() (queryMenuButton QueryMenuButtonRes, err error) {
         return
     }
 
-    url := fmt.Sprintf("%s?access_token=%s", QUERYMENUURL, accessToken)
+    url := fmt.Sprintf("%s?access_token=%s", QueryMenuUrl, accessToken)
 
     res, err := request.Get(url)
 
@@ -84,7 +85,7 @@ func (m *Menu) DelMenu() (resMsg response.CommonError, err error) {
         return
     }
 
-    url := fmt.Sprintf("%s?access_token=%s", DELMENUURL, accessToken)
+    url := fmt.Sprintf("%s?access_token=%s", DelMenuUrl, accessToken)
 
     res, err := request.Get(url)
 
@@ -105,7 +106,7 @@ func (m *Menu) TryMatch(user TryMatchUser) (tryMatchRes TryMatchRes, err error) 
         return
     }
 
-    url := fmt.Sprintf("%s?access_token=%s", TRYMATCHURL, accessToken)
+    url := fmt.Sprintf("%s?access_token=%s", TryMatchUrl, accessToken)
 
     res, err := request.Post(url, user)
 
@@ -113,8 +114,28 @@ func (m *Menu) TryMatch(user TryMatchUser) (tryMatchRes TryMatchRes, err error) 
         return
     }
 
-    fmt.Println(string(res))
     err = json.Unmarshal(res, &tryMatchRes)
+
+    return
+}
+
+
+func (m *Menu) DelConditional (delMenu DelMenu) (resMsg response.CommonError, err error) {
+
+    accessToken, err := token.NewAccessToken(m.Config).AccessToken()
+
+    if err != nil {
+        return
+    }
+    url := fmt.Sprintf("%s?access_token=%s", DelConditional, accessToken)
+
+    res, err := request.Post(url, delMenu)
+
+    if err != nil {
+        return
+    }
+
+    err = json.Unmarshal(res, &resMsg)
 
     return
 }

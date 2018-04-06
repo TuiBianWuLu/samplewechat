@@ -7,25 +7,25 @@ import (
     "github.com/TuiBianWuLu/samplewechat/token"
 )
 
-type Wechat struct {
+type WeChat struct {
     *config.Config
 }
 
-var w = new(Wechat)
+var w = new(WeChat)
 
-func New(c *config.Config) *Wechat {
+func New(c *config.Config) *WeChat {
     w.Config = c
     return w
 }
 
-func (w *Wechat) AccessToken() *token.AccessToken {
+func (w *WeChat) AccessToken() *token.AccessToken {
     return token.NewAccessToken(w.Config)
 }
 
-func (w *Wechat) Material() *material.Material {
+func (w *WeChat) Material() *material.Material {
     return material.New(w.Config)
 }
 
-func (w *Wechat) Menu() *menu.Menu {
+func (w *WeChat) Menu() *menu.Menu {
     return menu.New(w.Config)
 }
