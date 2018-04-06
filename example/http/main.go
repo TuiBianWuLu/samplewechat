@@ -12,8 +12,8 @@ import (
 func main() {
 
     WeChat := samplewechat.New(&config.Config{
-        AppID:  "appid",
-        Secret: "secret",
+        AppID:  "wxee829f0f8f8e310f",
+        Secret: "d4624c36b6795d1d99dcf0547af5443d",
         Cache: cache.NewRedis(&redis.Options{
             Addr:     "localhost:6379",
             Password: "",
@@ -41,10 +41,15 @@ func main() {
     //},MatchRule : menu.MatchRule{Sex: 1, ClientPlatformType: 1, Country: "中国", Province: "北京", City: "通州", Language: "zh_CN"}}
 
     //测试个性化菜单匹配结果
+    //menuButton := menu.TryMatch{UserID:"openid"}
+    //res, err := WeChat.Menu().TestTryMatch(menuButton)
+
+    menuButton := menu.DelMenu{MenuID: 863086243}
 
 
-    menuButton := menu.TryMatch{UserID:"openid"}
-    res, err := WeChat.Menu().TestTryMatch(menuButton)
+    res, err := WeChat.Menu().DelConditional(menuButton)
+
+
 
     //res, err := WeChat.Menu().CreateMenu(menuButtons)
     //

@@ -16,6 +16,7 @@ const (
     DelMenuUrl          = "https://api.weixin.qq.com/cgi-bin/menu/delete"
     AddConditionalUrl   = "https://api.weixin.qq.com/cgi-bin/menu/addconditional"
     TryMatchUrl         = "https://api.weixin.qq.com/cgi-bin/menu/trymatch"
+    DelConditional      = "https://api.weixin.qq.com/cgi-bin/menu/delconditional"
 )
 
 type Menu struct {
@@ -61,6 +62,8 @@ func (m *Menu) QueryMenu() (queryMenuButton QueryMenuButton, err error) {
     url := fmt.Sprintf("%s?access_token=%s", QueryMenuUrl, accessToken)
 
     res, err := request.Get(url)
+
+    //fmt.Println(string(res[:]))
 
     if err != nil {
         return
@@ -128,6 +131,25 @@ func (m *Menu) TestTryMatch(menu TryMatch) (queryTryMatch QueryTryMatch, err err
     }
 
     err = json.Unmarshal(res, &queryTryMatch)
+
+    return
+}
+
+func (m *Menu) DelConditional (MenuID DelMenu ) (resMsg response.CommonError, err error) {
+    accessToken, err := token.NewAccessToken(m.Config).AccessToken()
+
+    if err != nil {
+        return
+    }
+    url := fmt.Sprintf("%s?access_token=%s", DelConditional, accessToken)
+
+    res, err := request.Post(url, MenuID)
+
+    if err != nil {
+        return
+    }
+
+    err = json.Unmarshal(res, &resMsg)
 
     return
 }
