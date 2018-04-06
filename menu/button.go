@@ -54,7 +54,7 @@ type TryMatchUser struct {
 
 type TryMatchRes struct {
     response.CommonError
-    Menus struct{
+    Menus struct {
         Buttons []Button `json:"button"`
     } `json:"menu"`
 }

@@ -5,6 +5,7 @@ import (
 
     "github.com/TuiBianWuLu/samplewechat"
     "github.com/TuiBianWuLu/samplewechat/config"
+    "github.com/TuiBianWuLu/samplewechat/menu"
     "github.com/TuiBianWuLu/samplewechat/util/cache"
     "github.com/go-redis/redis"
 )
@@ -20,22 +21,27 @@ func main() {
         }),
     })
 
-    //token, err := wechat.AccessToken().AccessToken()
-    //
-    //fmt.Println(token, err)
+    //res, err := wechat.Menu().CreateMenu(menu.CreateMenuButton{
+    //    Buttons: []menu.Button{
+    //        {Type: "view", Name: "修改化菜单1", Url: "https://igetget.com"},
+    //        {Type: "view", Name: "今晚在北京", Url: "https://www.baidu.com"},
+    //        {Type: "click", Name: "明晚在东京", Url: "https://igetget.com", SubButton:[]menu.Button{
+    //            {Type: "view", Name: "哈哈", Url: "https://www.baidu.com"},
+    //        }},
+    //    },
+    //    MatchRule: menu.MatchRule{
+    //        Country: "中国",
+    //        Province: "北京",
+    //        City: "通州",
+    //    },
+    //})
 
-    //menuButtons := menu.CreateMenuButton{Buttons: []menu.Button{
-    //    {Name: "今晚", Type: "view", Url: "https://www.baidu.com"},
-    //    {Name: "今晚吃屎", Type: "click", SubButton: []menu.Button{
-    //        {Name: "今晚吃鸡吧", Type: "view", Url: "https://www.igetget.com/"},
-    //    }},
-    //}, MatchRule: menu.MatchRule{Sex:"1"}}
-    //
-    //res, err := wechat.Menu().CreateMenu(menuButtons)
+    // 863665865
+    //res, err := wechat.Menu().DelConditional(menu.DelMenu{MenuID: 863665865})
 
-    //fmt.Println(res, err)
+    //res, err := wechat.Menu().QueryMenu()
 
-    res, err := wechat.Menu().QueryMenu()
+    res, err := wechat.Menu().TryMatch(menu.TryMatchUser{UserId: "huangjinlong19920805"})
 
     fmt.Printf("%+v ----- \n %s --- \n ", res, err)
 }
