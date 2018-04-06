@@ -5,7 +5,6 @@ import (
 
     "github.com/TuiBianWuLu/samplewechat"
     "github.com/TuiBianWuLu/samplewechat/config"
-    "github.com/TuiBianWuLu/samplewechat/menu"
     "github.com/TuiBianWuLu/samplewechat/util/cache"
     "github.com/go-redis/redis"
 )
@@ -36,7 +35,7 @@ func main() {
 
     //fmt.Println(res, err)
 
-    res, err := wechat.Menu().TryMatch(menu.TryMatchUser{UserId:"huangjinlong19920805"})
+    res, err := wechat.Menu().QueryMenu()
 
-    fmt.Printf("%+v ----- %s", res, err)
+    fmt.Printf("%+v ----- \n %s --- \n ", res, err)
 }

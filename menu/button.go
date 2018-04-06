@@ -30,7 +30,12 @@ type CreateMenuButton struct {
     MatchRule        `json:"matchrule,omitempty"`
 }
 
+type TryMatchUser struct {
+    UserId string `json:"user_id"`
+}
+
 type QueryMenuButtonRes struct {
+    response.CommonError
     Menus struct {
         Buttons []Button `json:"button"`
         MenuID           `json:"menuid"`
@@ -42,13 +47,14 @@ type QueryMenuButtonRes struct {
     } `json:"conditionalmenu"`
 }
 
-type TryMatchUser struct {
-    UserId string `json:"user_id"`
-}
-
 type TryMatchRes struct {
     response.CommonError
     Menus struct{
         Buttons []Button `json:"button"`
     } `json:"menu"`
+}
+
+type CreateMenuRes struct {
+    response.CommonError
+    MenuID `json:"menuid"`
 }

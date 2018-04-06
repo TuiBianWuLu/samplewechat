@@ -71,7 +71,6 @@ func (m *Menu) QueryMenu() (queryMenuButton QueryMenuButtonRes, err error) {
         return
     }
 
-    fmt.Println(string(res))
     err = json.Unmarshal(res, &queryMenuButton)
 
     return
