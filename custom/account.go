@@ -35,3 +35,8 @@ type OnlineKfList struct {
 	KfID		int		`json:"ke_id"`
 	AcceptedCase	string	`json:"accepted_case"`
 }
+
+type KfTyping struct {
+	ToUser	string	`json:"touser"`
+	Command	string	`json:"command"`
+}

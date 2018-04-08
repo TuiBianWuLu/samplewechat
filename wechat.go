@@ -7,6 +7,7 @@ import (
     "github.com/TuiBianWuLu/samplewechat/token"
     "github.com/TuiBianWuLu/samplewechat/custom"
     "github.com/TuiBianWuLu/samplewechat/message"
+    "github.com/TuiBianWuLu/samplewechat/template"
 )
 
 type WeChat struct {
@@ -36,6 +37,12 @@ func (w *WeChat) Custom() *custom.Custom {
     return custom.New(w.Config)
 }
 
+func (w *WeChat) Template() *template.Template {
+    return template.New(w.Config)
+}
+
 func (w *WeChat) Message() *message.Message {
     return message.New(w.Config)
 }
+
+

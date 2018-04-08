@@ -16,6 +16,8 @@ const (
 	InviteWorkerUrl		= "https://api.weixin.qq.com/customservice/kfaccount/inviteworker"
 	KfListUrl			= "https://api.weixin.qq.com/cgi-bin/customservice/getkflist"
 	GetOnlineKfListUrl	= "https://api.weixin.qq.com/cgi-bin/customservice/getonlinekflist"
+	CustomerTypingUrl	= "https://api.weixin.qq.com/cgi-bin/message/custom/typing"
+	SendCustomMsgUrl	= "https://api.weixin.qq.com/cgi-bin/message/custom/send"
 
 	IsUpdate = 1
 )
@@ -121,6 +123,47 @@ func (kf *Custom) GetOnlineKfList() (onlineKfList OnlineKfListRes, err error) {
 	res, err := request.Get(url)
 
 	json.Unmarshal(res, &onlineKfList)
+
+	return
+}
+
+func (kf *Custom) Typing(kfTyp KfTyping) (resMsg response.CommonError, err error) {
+	accessToken, err := token.NewAccessToken(kf.Config).AccessToken()
+
+	if err != nil {
+		return
+	}
+
+	url := fmt.Sprintf("%s?access_token=%s", CustomerTypingUrl, accessToken)
+
+	res, err := request.Post(url, kfTyp)
+
+	if err != nil {
+		return
+	}
+
+	json.Unmarshal(res, &resMsg)
+
+	return
+}
+
+func (kf *Custom) Send(content interface{}) (resMsg response.CommonError, err error) {
+
+	accessToken, err := token.NewAccessToken(kf.Config).AccessToken()
+
+	if err != nil {
+		return
+	}
+
+	url := fmt.Sprintf("%s?access_token=%s", SendCustomMsgUrl, accessToken)
+
+	res, err := request.Post(url, content)
+
+	if err != nil {
+		return
+	}
+
+	json.Unmarshal(res, &resMsg)
 
 	return
 }
