@@ -11,12 +11,12 @@ import (
 )
 
 const (
-    AddMenuUrl          = "https://api.weixin.qq.com/cgi-bin/menu/create"
-    QueryMenuUrl        = "https://api.weixin.qq.com/cgi-bin/menu/get"
-    DelMenuUrl          = "https://api.weixin.qq.com/cgi-bin/menu/delete"
-    AddConditionalUrl   = "https://api.weixin.qq.com/cgi-bin/menu/addconditional"
-    TryMatchUrl         = "https://api.weixin.qq.com/cgi-bin/menu/trymatch"
-    DelConditional      = "https://api.weixin.qq.com/cgi-bin/menu/delconditional"
+    AddMenuUrl        = "https://api.weixin.qq.com/cgi-bin/menu/create"
+    QueryMenuUrl      = "https://api.weixin.qq.com/cgi-bin/menu/get"
+    DelMenuUrl        = "https://api.weixin.qq.com/cgi-bin/menu/delete"
+    AddConditionalUrl = "https://api.weixin.qq.com/cgi-bin/menu/addconditional"
+    TryMatchUrl       = "https://api.weixin.qq.com/cgi-bin/menu/trymatch"
+    DelConditional    = "https://api.weixin.qq.com/cgi-bin/menu/delconditional"
 )
 
 type Menu struct {
@@ -30,7 +30,7 @@ func New(c *config.Config) *Menu {
     return m
 }
 
-func (m *Menu) CreateMenu(menu CreateMenuButton) (resMsg response.CommonError, err error) {
+func (m *Menu) CreateMenu(createMenuButton CreateMenuButton) (createMenuRes CreateMenuRes, err error) {
 
     accessToken, err := token.NewAccessToken(m.Config).AccessToken()
 
@@ -39,24 +39,24 @@ func (m *Menu) CreateMenu(menu CreateMenuButton) (resMsg response.CommonError, e
     }
 
     var url string
-    if menu.MatchRule == (MatchRule{}) {
+    if createMenuButton.MatchRule == (MatchRule{}) {
         url = fmt.Sprintf("%s?access_token=%s", AddMenuUrl, accessToken)
     } else {
         url = fmt.Sprintf("%s?access_token=%s", AddConditionalUrl, accessToken)
     }
 
-    res, err := request.Post(url, menu)
+    res, err := request.Post(url, createMenuButton)
 
     if err != nil {
         return
     }
 
-    err = json.Unmarshal(res, &resMsg)
+    err = json.Unmarshal(res, &createMenuRes)
 
     return
 }
 
-func (m *Menu) QueryMenu() (queryMenuButton QueryMenuButtonRes, err error) {
+func (m *Menu) QueryMenu() (queryMenuButtonRes QueryMenuButtonRes, err error) {
 
     accessToken, err := token.NewAccessToken(m.Config).AccessToken()
 
@@ -72,7 +72,8 @@ func (m *Menu) QueryMenu() (queryMenuButton QueryMenuButtonRes, err error) {
         return
     }
 
-    err = json.Unmarshal(res, &queryMenuButton)
+    fmt.Println(string(res))
+    err = json.Unmarshal(res, &queryMenuButtonRes)
 
     return
 }
@@ -98,7 +99,7 @@ func (m *Menu) DelMenu() (resMsg response.CommonError, err error) {
     return
 }
 
-func (m *Menu) TryMatch(user TryMatchUser) (tryMatchRes TryMatchRes, err error) {
+func (m *Menu) TryMatch(tryMatchUser TryMatchUser) (tryMatchRes TryMatchRes, err error) {
 
     accessToken, err := token.NewAccessToken(m.Config).AccessToken()
 
@@ -108,7 +109,7 @@ func (m *Menu) TryMatch(user TryMatchUser) (tryMatchRes TryMatchRes, err error) 
 
     url := fmt.Sprintf("%s?access_token=%s", TryMatchUrl, accessToken)
 
-    res, err := request.Post(url, user)
+    res, err := request.Post(url, tryMatchUser)
 
     if err != nil {
         return

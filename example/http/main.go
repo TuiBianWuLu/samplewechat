@@ -5,9 +5,9 @@ import (
 
     "github.com/TuiBianWuLu/samplewechat"
     "github.com/TuiBianWuLu/samplewechat/config"
+    "github.com/TuiBianWuLu/samplewechat/template"
     "github.com/TuiBianWuLu/samplewechat/util/cache"
     "github.com/go-redis/redis"
-    "github.com/TuiBianWuLu/samplewechat/template"
 )
 
 func main() {
